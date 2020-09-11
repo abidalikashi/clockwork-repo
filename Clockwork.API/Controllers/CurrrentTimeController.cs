@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Clockwork.API.Models;
+using Newtonsoft.Json.Linq;
 
 namespace Clockwork.API.Controllers
 {
@@ -14,13 +16,15 @@ namespace Clockwork.API.Controllers
             var utcTime = DateTime.UtcNow;
             var serverTime = DateTime.Now;
             var ip = this.HttpContext.Connection.RemoteIpAddress.ToString();
+           // string [] result = new string[4];
 
             var returnVal = new CurrentTimeQuery
             {
                 UTCTime = utcTime,
                 ClientIp = ip,
-                Time = serverTime
+                Time = serverTime       
             };
+            string[] result = { returnVal.UTCTime.ToString(), returnVal.ClientIp, returnVal.Time.ToString(), "Json Array Returned" };
 
             using (var db = new ClockworkContext())
             {
@@ -35,7 +39,8 @@ namespace Clockwork.API.Controllers
                 }
             }
 
-            return Ok(returnVal);
+            return Ok(result);
         }
+
     }
 }
