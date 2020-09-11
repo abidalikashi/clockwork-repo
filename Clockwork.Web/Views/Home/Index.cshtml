@@ -7,7 +7,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <style>
     .bcontent {
-        margin-top: 10px;
+        margin-top: 20px;
     }
 </style>
 
@@ -18,7 +18,6 @@
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("output").innerHTML = this.responseText;
-                document.getElementById("output").innerHTML = Data.UTCTime;
             }
         };
         xhttp.open("GET", "http://localhost:5000/api/currenttime", true);
@@ -30,89 +29,72 @@
     function UserActionTable() {
         var xhttp = new XMLHttpRequest();
         var myTableDiv = document.getElementById("myDynamicTable");
-        var table = document.createElement('TABLE');
-        var rowCount = table.rows.length;
-        var row = table.insertRow(rowCount);
+        var table = document.getElementById('table');
         table.border = '1';
         var tableBody = document.createElement('TBODY');
         table.appendChild(tableBody);
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var Data = JSON.parse(this.responseText);
-
-                for (var i = 0; i < 1; i++) {
-                    var tr = document.createElement('TR');
-                    tableBody.appendChild(tr);
-
-                    for (var j = 0; j < 4; j++) {
-                        var td = document.createElement('TD');
-                        td.width = '75';
-                        td.append
-                        td.appendChild(document.createTextNode(Data[j]));
-                        tr.appendChild(td);
-                    }
+                var tr = document.createElement('TR');
+                tableBody.appendChild(tr);
+                for (var j = 0; j < 4; j++) {
+                    var td = document.createElement('TD');
+                    td.append;
+                    td.appendChild(document.createTextNode(Data[j]));
+                    tr.appendChild(td);
                 }
                 myTableDiv.appendChild(table);
-                }
             }
-        
+        }
         xhttp.open("GET", "http://localhost:5000/api/currenttime", true);
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send();
-
     }
 
-    function addRow() {
-        var utctime = Data.UTCTime;
-        var time = Data.Time;
-        var clientip = Data.ClientIp;
-        var msg = Data.Msg;
-        var rowCount = table.rows.length;
-        var row = table.insertRow(rowCount);
-
-        row.insertCell(1).innerHTML = utctime.value;
-        row.insertCell(2).innerHTML = time.value;
-        row.insertCell(3).innerHTML = clientip.valuel;
-        row.insertCell(4).innerHTML = msg.value;
-    }
+    $(document).ready(function () {
+        $('button').attr('disabled', false);
+    });
 
 </script>
 
-<h2>AWH Clockwork Project @ViewData["Version"] on @ViewData["Runtime"]!</h2>
 
 
-<button type="submit" onclick="UserAction()">Get the time</button>
-<div>
-    <button type="submit" onclick="UserActionTable()"> Get the time Table </button>
+
+<div class="container-md">
+
+    <h2>AWH Clockwork Project @ViewData["Version"] on @ViewData["Runtime"]!</h2>
+    <p id="output"></p>
+    <button type="submit" onclick="UserActionTable()" class="btn btn-primary" disabled style="height:40px;width:200px" align="left">
+        Get the time Table
+    </button>
+    <button type="submit" onclick="UserAction()" class="btn btn-primary" disabled style="height:40px;width:200px" align="right">
+        Get the time
+    </button>
 </div>
-
-<p id="output"></p>
-
 
 <!--Table-->
 <div id="myDynamicTable">
-        <h2>ClockWork Responsive Table</h2>
-        <div class="table-responsive">
-            <table class="table table-striped table-dark table-bordered">
-                <!--Table head-->
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>UTC Time</th>
-                        <th>Client Ip</th>
-                        <th>Time</th>
-                        <th>Message</th>
-                    </tr>
-                </thead>
-                <!--Table head-->
-                <!--Table body-->
-                <tbody>
-                </tbody>
-                <!--Table body-->
+    <h2 align="center">ClockWork Responsive Table</h2>
+    <div class="table-responsive-md">
+        <table class="table table-striped table-dark table-bordered" id="table">
+            <!--Table head-->
+            <thead>
+                <tr>
+                    <th>UTC Time</th>
+                    <th>Client Ip</th>
+                    <th>Time</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <!--Table head-->
+            <!--Table body-->
+            <tbody>
+            </tbody>
+            <!--Table body-->
 
 
-            </table>
-            <!--Table-->
-        </div>
+        </table>
+        <!--Table-->
+    </div>
 </div>
-
