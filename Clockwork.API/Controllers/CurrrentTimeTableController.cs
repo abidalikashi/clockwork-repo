@@ -23,9 +23,7 @@ namespace Clockwork.API.Controllers
 
             using (var db = new ClockworkContext())
             {
-
                  json = db.CurrentTimeQueries.ToList<CurrentTimeQuery>();
-
                 Console.WriteLine("Data Table Requested");
             }
             return Ok(json);

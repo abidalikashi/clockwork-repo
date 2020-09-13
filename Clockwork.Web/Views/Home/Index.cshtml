@@ -5,9 +5,11 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
-    .bcontent {
-        margin-top: 20px;
+    .table_wrapper {
+        height: 300px;
+        overflow: auto;
     }
 </style>
 
@@ -28,7 +30,7 @@
     function UserActionTable() {
         var xhttp = new XMLHttpRequest();
         var myTableDiv = document.getElementById("myDynamicTable");
-        var table = document.getElementById('table');
+        var table = document.getElementById('tabledynamic');
         var tableBody = document.createElement('TBODY');
         table.appendChild(tableBody);
         xhttp.onreadystatechange = function () {
@@ -53,33 +55,21 @@
 
     function PageLoadEntireTable() {
         var xhttp = new XMLHttpRequest();
-        var myPageTableDiv = document.getElementById("PageDynamicTable");
-        var tableBody = document.getElementById("PageDynamicTableBody");
-       // var tableBody = document.createElement('TBODY');
-        //table.appendChild(tableBody);
+        $("#PageDynamicTableBody").html('');
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var Data = JSON.parse(this.responseText);
-                //document.getElementById("output").innerHTML = this.responseText;
                 for (var i = 0; i < Data.length; i++) {
-                    var tr = document.createElement('TR');
-                    tableBody.appendChild(tr);
-
-                    for (var j = 0; j < 4; j++) {
-                        var td = document.createElement('TD');
-                        td.append;
-                        td.appendChild(document.createTextNode(JSON.stringify(Data[j])));
-                        tr.appendChild(td);
-                    }
+                    $("#PageDynamicTableBody").append('<tr><td>' + (Data[i].currentTimeQueryId) + '</td><td> ' + (Data[i].time) + '</td><td>' + (Data[i].clientIp) + '</td><td>' + (Data[i].utcTime) + '</td ></tr>');
                 }
-                myPageTableDiv.appendChild(table);
             }
         }
         xhttp.open("GET", "http://localhost:5000/api/currenttimetable", true);
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send();
-    } 
+    }
     $(document).ready(function () {
+        PageLoadEntireTable();
         $('button').attr('disabled', false);
 
 
@@ -87,81 +77,80 @@
 
 </script>
 
-
-
-
-<div class="container-sm">
+<div class="container-sm" style="padding-bottom:50px">
 
     <h2>AWH Clockwork Project @ViewData["Version"] on @ViewData["Runtime"]!</h2>
     <p id="output"></p>
 </div>
-<div class="container-md" hidden padding:10px>
-
-</div>
-<div class="container-md" align="center">
-    <button type="submit" onclick="UserActionTable()" class="btn btn-primary" disabled style="height:40px;width:200px" align="left">
-        Add Table Record
-    </button>
-    <button type="submit" onclick="UserAction()" class="btn btn-primary" disabled style="height:40px;width:200px" align="right">
-        Get the time
-    </button>
-    <button type="submit" onclick="PageLoadEntireTable()" class="btn btn-primary" disabled style="height:40px;width:200px" align="right">
-        Load Table
-    </button>
-</div>
-
-<div class="container-md"  padding:100px>
-
-</div>
-<div class="container-md">
-    <!--Table-->
-    <div id="myDynamicTable" class="bcontent">
-        <h2 align="center">ClockWork Responsive Dynamic Table</h2>
-        <div class="table-responsive-md">
-            <table class="table table-striped table-dark table-bordered" id="table">
-                <!--Table head-->
-                <thead>
-                    <tr>
-                        <th>UTC Time</th>
-                        <th>Client Ip</th>
-                        <th>Time</th>
-                        <th>Message</th>
-                    </tr>
-                </thead>
-                <!--Table head-->
-                <!--Table body-->
-                <tbody>
-                </tbody>
-                <!--Table body-->
 
 
-            </table>
-            <!--Table-->
-        </div>
+<div class="align-content-lg-around" style="margin:100px">
+
+
+    <div class="container-md" align="center" style="padding-bottom:50px">
+        <button type="submit" onclick="UserActionTable(); PageLoadEntireTable()" class="btn btn-primary" disabled style="height:40px;width:200px" align="left">
+            Add Table Record
+        </button>
+        <button type="submit" onclick="UserAction()" class="btn btn-primary" disabled style="height:40px;width:200px" align="right">
+            Get the time
+        </button>
+        <button type="submit" onclick="PageLoadEntireTable()" class="btn btn-primary" disabled style="height:40px;width:200px" align="right">
+            Load Table
+        </button>
     </div>
 
-    <div id="PageDynamicTable" class="bcontent">
-        <h2 align="center">ClockWork Responsive Fetch Table</h2>
-        <div class="table-responsive-md">
-            <table class="table table-striped table-dark table-bordered">
-                <!--Table head-->
-                <thead>
-                    <tr>
-                        <th>Record #</th>
-                        <th>UTC Time</th>
-                        <th>Client Ip</th>
-                        <th>Time</th>
-                    </tr>
-                </thead>
-                <!--Table head-->
-                <!--Table body-->
-                <tbody id="PageDynamicTableBody">
-                </tbody>
-                <!--Table body-->
+
+    <div class="container-md table_wrapper">
+        <!--Table-->
+        <div id="myDynamicTable">
+            <h2 align="center">ClockWork Responsive Dynamic Table</h2>
+            <div class="table-responsive-md">
+                <table class="table table-striped table-dark table-bordered" id="tabledynamic">
+                    <!--Table head-->
+                    <thead>
+                        <tr>
+                            <th>UTC Time</th>
+                            <th>Client Ip</th>
+                            <th>Time</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <!--Table head-->
+                    <!--Table body-->
+                    <tbody>
+                    </tbody>
+                    <!--Table body-->
 
 
-            </table>
-            <!--Table-->
+                </table>
+                <!--Table-->
+            </div>
+        </div>
+    </div>
+    <div>
+        <div id="PageDynamicTable" class="table_wrapper">
+            <h2 align="center">ClockWork Responsive Fetch Table</h2>
+            <div class="table-responsive-md">
+                <table class="table table-striped table-dark table-bordered">
+                    <!--Table head-->
+                    <thead>
+                        <tr>
+                            <th>Record #</th>
+                            <th>UTC Time</th>
+                            <th>Client Ip</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <!--Table head-->
+                    <!--Table body-->
+                    <tbody id="PageDynamicTableBody">
+                    </tbody>
+                    <!--Table body-->
+
+
+                </table>
+                <!--Table-->
+            </div>
         </div>
     </div>
 </div>
