@@ -29,29 +29,23 @@
 
     function UserActionTable() {
         var xhttp = new XMLHttpRequest();
-        var myTableDiv = document.getElementById("myDynamicTable");
-        var table = document.getElementById('tabledynamic');
-        var tableBody = document.createElement('TBODY');
-        table.appendChild(tableBody);
+        $("#tabledynamic").append($("#dynamicTableBody"));
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var Data = JSON.parse(this.responseText);
                 var tr = document.createElement('TR');
-                tableBody.appendChild(tr);
+                $("#dynamicTableBody").append(tr);
                 for (var j = 0; j < 4; j++) {
                     var td = document.createElement('TD');
-                    td.append;
                     td.appendChild(document.createTextNode(Data[j]));
                     tr.appendChild(td);
                 }
-                myTableDiv.appendChild(table);
             }
         }
         xhttp.open("GET", "http://localhost:5000/api/currenttime", true);
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send();
     }
-
 
     function PageLoadEntireTable() {
         var xhttp = new XMLHttpRequest();
@@ -71,8 +65,6 @@
     $(document).ready(function () {
         PageLoadEntireTable();
         $('button').attr('disabled', false);
-
-
     });
 
 </script>
@@ -117,7 +109,7 @@
                     </thead>
                     <!--Table head-->
                     <!--Table body-->
-                    <tbody>
+                    <tbody id="dynamicTableBody">
                     </tbody>
                     <!--Table body-->
 
