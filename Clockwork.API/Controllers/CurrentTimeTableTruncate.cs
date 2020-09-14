@@ -19,11 +19,11 @@ namespace Clockwork.API.Controllers
         {
             using (var db = new ClockworkContext())
             {
-                db.Database.ExecuteSqlRaw("TRUNCATE TABLE CurrentTimeQuery");
+                db.CurrentTimeQueries.RemoveRange(db.CurrentTimeQueries);
                 Console.WriteLine("Data Table Truncated");
+                db.SaveChanges();
             }
-
-            return View("Index");
+            return Ok();
         }
 
     }
