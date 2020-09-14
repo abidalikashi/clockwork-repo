@@ -20,7 +20,7 @@ namespace Clockwork.API.Controllers
             {
                 UTCTime = utcTime,
                 ClientIp = ip,
-                Time = serverTime       
+                Time = serverTime
             };
             string[] result = { returnVal.UTCTime.ToString(), returnVal.ClientIp, returnVal.Time.ToString(), "Json Array Returned" };
 
